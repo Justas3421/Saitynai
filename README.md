@@ -1,29 +1,12 @@
-# README #
 
-This README would normally document whatever steps are necessary to get your application up and running.
 
-### What is this repository for? ###
+# Projekto pavadinimas: #
+„Nuomojamų objektų valdymo sistema“ 
 
-* Quick summary
-* Version
-* [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
+# Sprendžiamo uždavinio aprašymas: #
+Sistemos tikslas – sukurti efektyvią ir patogią platformą, skirtą nuomojamų objektų (namų, butų, kambarių) valdymui. 
+Sistema leis nuomotojams lengvai administruoti savo objektus, stebėti nuomos užsakymus ir valdyti susijusią informaciją.
+Administratoriai turės pilną prieigą prie visų sistemos objektų, vartotojų ir užsakymų, galės prižiūrėti ir valdyti sistemos veiklą.
+Svečiai galės peržiūrėti viešai prieinamus nuomos objektus, o autentifikuoti vartotojai (nariai) – atlikti platesnius veiksmus, priklausomai nuo jų rolės.
+Sistema užtikrins saugią autentifikaciją ir autorizaciją, naudojant JWT, užtikrinant vartotojų duomenų saugumą ir jų prieigą prie tinkamų sistemos funkcijų pagal jų rolę (svečias, narys, administratorius).
 
-### How do I get set up? ###
-
-* Summary of set up
-* Configuration
-* Dependencies
-* Database configuration
-* How to run tests
-* Deployment instructions
-
-### Contribution guidelines ###
-
-* Writing tests
-* Code review
-* Other guidelines
-
-### Who do I talk to? ###
-
-* Repo owner or admin
-* Other community or team contact

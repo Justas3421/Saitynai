@@ -1,0 +1,531 @@
+openapi: "3.0.0"
+info:
+  title: Landlord Building and Flat Management API
+  version: "1.0"
+servers:
+  - url: https://api.server.test/v1
+paths:
+  /landlords:
+    get:
+      summary: Get a list of landlords
+      tags:
+        - landlord
+      operationId: getLandlords
+      responses:
+        "200":
+          description: A list of landlords
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/landlord"
+    post:
+      summary: Create a landlord
+      tags:
+        - landlord
+      operationId: createLandlord
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/createLandlord"
+      responses:
+        "201":
+          $ref: "#/components/responses/singleLandlord"
+        "400":
+          $ref: "#/components/responses/badRequest"
+        "422":
+          $ref: "#/components/responses/unprocessableEntity"
+  /landlords/{landlordId}:
+    parameters:
+      - $ref: "#/components/parameters/landlordId"
+    get:
+      summary: Get landlord by ID
+      tags:
+        - landlord
+      operationId: getLandlord
+      responses:
+        "200":
+          $ref: "#/components/responses/singleLandlord"
+        "404":
+          $ref: "#/components/responses/notFound"
+    put:
+      summary: Update landlord by ID
+      tags:
+        - landlord
+      operationId: updateLandlord
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/updateLandlord"
+      responses:
+        "200":
+          $ref: "#/components/responses/singleLandlord"
+        "400":
+          $ref: "#/components/responses/badRequest"
+        "404":
+          $ref: "#/components/responses/notFound"
+        "422":
+          $ref: "#/components/responses/unprocessableEntity"
+    delete:
+      summary: Delete landlord by ID
+      tags:
+        - landlord
+      operationId: deleteLandlord
+      responses:
+        "404":
+          $ref: "#/components/responses/notFound"
+        "204":
+          description: Landlord deleted
+
+  /landlords/{landlordId}/buildings:
+    parameters:
+      - $ref: "#/components/parameters/landlordId"
+    get:
+      summary: Get buildings for a landlord
+      tags:
+        - building
+      operationId: getBuildings
+      responses:
+        "200":
+          description: A list of buildings
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/building"
+        "404":
+          $ref: "#/components/responses/notFound"
+    post:
+      summary: Add a building
+      tags:
+        - building
+      operationId: createBuilding
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/createBuilding"
+      responses:
+        "201":
+          $ref: "#/components/responses/singleBuilding"
+        "404":
+          $ref: "#/components/responses/notFound"
+        "422":
+          $ref: "#/components/responses/unprocessableEntity"
+
+  /landlords/{landlordId}/buildings/{buildingId}:
+    parameters:
+      - $ref: "#/components/parameters/landlordId"
+      - $ref: "#/components/parameters/buildingId"
+    get:
+      summary: Get a specific building for a landlord
+      tags:
+        - building
+      operationId: getBuilding
+      responses:
+        "200":
+          $ref: "#/components/responses/singleBuilding"
+        "404":
+          $ref: "#/components/responses/notFound"
+    put:
+      summary: Update a building for a landlord
+      tags:
+        - building
+      operationId: updateBuilding
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/updateBuilding"
+      responses:
+        "200":
+          $ref: "#/components/responses/singleBuilding"
+        "404":
+          $ref: "#/components/responses/notFound"
+        "422":
+          $ref: "#/components/responses/unprocessableEntity"
+    delete:
+      summary: Delete a building for a landlord
+      tags:
+        - building
+      operationId: deleteBuilding
+      responses:
+        "404":
+          $ref: "#/components/responses/notFound"
+        "204":
+          description: Building deleted
+
+  /landlords/{landlordId}/buildings/{buildingId}/flats:
+    parameters:
+      - $ref: "#/components/parameters/landlordId"
+      - $ref: "#/components/parameters/buildingId"
+    get:
+      summary: Get flats for a specific building
+      tags:
+        - flat
+      operationId: getFlats
+      responses:
+        "200":
+          description: A list of flats
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/flat"
+        "404":
+          $ref: "#/components/responses/notFound"
+    post:
+      summary: Add a flat for a specific building
+      tags:
+        - flat
+      operationId: createFlat
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/createFlat"
+      responses:
+        "201":
+          $ref: "#/components/responses/singleFlat"
+        "404":
+          $ref: "#/components/responses/notFound"
+        "422":
+          $ref: "#/components/responses/unprocessableEntity"
+
+  /landlords/{landlordId}/buildings/{buildingId}/flats/{flatId}:
+    parameters:
+      - $ref: "#/components/parameters/landlordId"
+      - $ref: "#/components/parameters/buildingId"
+      - $ref: "#/components/parameters/flatId"
+    get:
+      summary: Get a specific flat
+      tags:
+        - flat
+      operationId: getFlat
+      responses:
+        "200":
+          $ref: "#/components/responses/singleFlat"
+        "404":
+          $ref: "#/components/responses/notFound"
+    put:
+      summary: Update a flat
+      tags:
+        - flat
+      operationId: updateFlat
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/updateFlat"
+      responses:
+        "200":
+          $ref: "#/components/responses/singleFlat"
+        "404":
+          $ref: "#/components/responses/notFound"
+        "422":
+          $ref: "#/components/responses/unprocessableEntity"
+    delete:
+      summary: Delete a flat
+      tags:
+        - flat
+      operationId: deleteFlat
+      responses:
+        "404":
+          $ref: "#/components/responses/notFound"
+        "204":
+          description: Flat deleted
+components:
+  schemas:
+    problemDetails:
+      type: object
+      properties:
+        type:
+          type: string
+          format: uri
+          description: A URI reference that identifies the problem type.
+        title:
+          type: string
+          description: A short, human-readable summary of the problem type.
+        status:
+          type: integer
+          format: int32
+          description: The HTTP status code applicable to this problem.
+        detail:
+          type: string
+          description: A human-readable explanation specific to this occurrence of the problem.
+        instance:
+          type: string
+          format: uri
+          description: A URI reference that identifies the specific occurrence of the problem.
+        errors:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: string
+          description: A map of detailed errors for every property ([property => error])
+    landlord:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        email:
+          type: string
+        phone_number:
+          type: string
+        createdAt:
+          type: string
+        updatedAt:
+          type: string
+    createLandlord:
+      type: object
+      required:
+        - name
+        - email
+      properties:
+        name:
+          type: string
+          minLength: 2
+          maxLength: 50
+        email:
+          type: string
+          minLength: 5
+          maxLength: 50
+        phone_number:
+          type: string
+          minLength: 8
+          maxLength: 50
+    updateLandlord:
+      type: object
+      properties:
+        name:
+          type: string
+          minLength: 2
+          maxLength: 50
+        email:
+          type: string
+          minLength: 5
+          maxLength: 50
+        phone_number:
+          type: string
+          minLength: 8
+          maxLength: 50
+    building:
+      type: object
+      properties:
+        id:
+          type: integer
+        landlord:
+          type: object
+        name:
+          type: string
+        address:
+          type: string
+        city:
+          type: string
+        state:
+          type: string
+        zip_code:
+          type: string
+        number_of_floors:
+          type: integer
+        createdAt:
+          type: string
+        updatedAt:
+          type: string
+    createBuilding:
+      type: object
+      required:
+        - landlord_id
+        - name
+        - address
+        - city
+        - state
+        - zip_code
+      properties:
+        landlord_id:
+          type: integer
+        name:
+          type: string
+          minLength: 2
+          maxLength: 50
+        address:
+          type: string
+          minLength: 5
+          maxLength: 50
+        city:
+          type: string
+          minLength: 2
+          maxLength: 50
+        state:
+          type: string
+          minLength: 2
+          maxLength: 50
+        zip_code:
+          type: string
+          minLength: 5
+          maxLength: 10
+        number_of_floors:
+          type: integer
+    updateBuilding:
+      type: object
+      properties:
+        name:
+          type: string
+          minLength: 2
+          maxLength: 50
+        address:
+          type: string
+          minLength: 5
+          maxLength: 50
+        city:
+          type: string
+          minLength: 2
+          maxLength: 50
+        state:
+          type: string
+          minLength: 2
+          maxLength: 50
+        zip_code:
+          type: string
+          minLength: 5
+          maxLength: 10
+    flat:
+      type: object
+      properties:
+        id:
+          type: integer
+        building:
+          type: object 
+        flat_number:
+          type: string
+        number_of_bedrooms:
+          type: integer
+        number_of_bathrooms:
+          type: integer
+        rent_amount:
+          type: number
+          format: float
+        is_occupied:
+          type: boolean
+        tenant_name:
+          type: string
+    createFlat:
+      type: object
+      required:
+        - building_id
+        - flat_number
+        - is_occupied
+      properties:
+        building_id:
+          type: integer 
+        flat_number:
+          type: string
+          minLength: 2
+          maxLength: 50
+        is_occupied:
+          type: boolean
+        number_of_bedrooms:
+          type: integer
+        number_of_bathrooms:
+          type: integer
+        rent_amount:
+          type: number
+        tenant_name:
+          type: string
+          minLength: 2
+          maxLength: 50
+    updateFlat:
+      type: object
+      properties: 
+        flat_number:
+          type: string
+          minLength: 2
+          maxLength: 50
+        is_occupied:
+          type: boolean
+        number_of_bedrooms:
+          type: integer
+        number_of_bathrooms:
+          type: integer
+        rent_amount:
+          type: number
+        tenant_name:
+          type: string
+          minLength: 2
+          maxLength: 50
+  responses:
+    singleLandlord:
+      description: A landlord
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/landlord"
+    singleBuilding:
+      description: A building
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/building"
+    singleFlat:
+      description: A flat
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/flat"
+    unprocessableEntity:
+      description: Unprocessable entity response
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/problemDetails"
+    badRequest:
+      description: Bad request response
+    notFound:
+      description: Resource was not found
+  parameters:
+    landlordId:
+      name: landlordId
+      in: path
+      required: true
+      schema:
+        type: integer
+        minimum: 1
+      description: The unique identifier of the landlord
+    buildingId:
+      name: buildingId
+      in: path
+      required: true
+      schema:
+        type: integer
+        minimum: 1
+      description: The unique identifier of the building
+    flatId:
+      name: flatId
+      in: path
+      required: true
+      schema:
+        type: integer
+        minimum: 1
+      description: The unique identifier of the flat
+
+tags:
+  - name: landlord
+    description: Operations related to landlords
+  - name: building
+    description: Operations related to buildings
+  - name: flat
+    description: Operations related to flats

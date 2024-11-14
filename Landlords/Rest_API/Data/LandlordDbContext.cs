@@ -1,8 +1,9 @@
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace Rest_API.Data.Entities;
 
-public class LandlordDbContext : DbContext
+public class LandlordDbContext : IdentityDbContext<LandlordRestUser>
 {
     private readonly IConfiguration _configuration;
     public DbSet<Landlord> Landlords { get; set; }

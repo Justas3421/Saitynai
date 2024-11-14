@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using FluentValidation;
 
 namespace Rest_API.Data.Entities;
@@ -5,7 +6,7 @@ namespace Rest_API.Data.Entities;
 public class Flat
 {
     public int Id { get; set; }
-    
+
     public Building Building { get; set; }
     public string FlatNumber { get; set; }
     public int? NumberOfBedrooms { get; set; }
@@ -16,15 +17,39 @@ public class Flat
     public DateTimeOffset CreatedAt { get; set; } = DateTimeOffset.UtcNow;
     public DateTimeOffset UpdatedAt { get; set; } = DateTimeOffset.UtcNow;
 
+    [Required]
+    public required string UserId { get; set; }
+    public LandlordRestUser User { get; set; }
+
     public FlatDto toDto()
     {
-        return new FlatDto(Id, Building.Id, FlatNumber, NumberOfBedrooms, NumberOfBathrooms, RentAmount,IsOccupied, TenantName, createdAt:CreatedAt, updatedAt:UpdatedAt);
+        return new FlatDto(
+            Id,
+            Building.Id,
+            FlatNumber,
+            NumberOfBedrooms,
+            NumberOfBathrooms,
+            RentAmount,
+            IsOccupied,
+            TenantName,
+            createdAt: CreatedAt,
+            updatedAt: UpdatedAt
+        );
     }
-    
 }
 
-public record FlatDto(int flatId, int buildingId, String flatNumber, int? numBedrooms,
-    int? numBathrooms, decimal? rent, bool isOccupied, String? tenantName,  DateTimeOffset createdAt, DateTimeOffset updatedAt);
+public record FlatDto(
+    int flatId,
+    int buildingId,
+    String flatNumber,
+    int? numBedrooms,
+    int? numBathrooms,
+    decimal? rent,
+    bool isOccupied,
+    String? tenantName,
+    DateTimeOffset createdAt,
+    DateTimeOffset updatedAt
+);
 
 public record CreateFlatDto(
     string flatNumber,
@@ -32,7 +57,8 @@ public record CreateFlatDto(
     int? numBathrooms,
     decimal? rent,
     bool isOccupied,
-    String? tenantName)
+    String? tenantName
+)
 {
     public class CreateFlatDtoValidator : AbstractValidator<CreateFlatDto>
     {
@@ -52,7 +78,7 @@ public record CreateFlatDto(
                 .When(x => x.isOccupied)
                 .WithMessage("Tenant name must be provided when the flat is occupied.");
         }
-    } 
+    }
 };
 
 public record UpdateFlatDto(
@@ -61,7 +87,8 @@ public record UpdateFlatDto(
     int? numBathrooms,
     decimal? rent,
     bool isOccupied,
-    String? tenant)
+    String? tenant
+)
 {
     public class UpdateFlatDtoValidator : AbstractValidator<UpdateFlatDto>
     {
@@ -81,5 +108,5 @@ public record UpdateFlatDto(
             //     .When(x => x.isOccupied)
             //     .WithMessage("Tenant name must be provided when the flat is occupied.");
         }
-    } 
+    }
 };

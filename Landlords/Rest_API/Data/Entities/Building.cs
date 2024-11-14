@@ -1,4 +1,6 @@
+using System.ComponentModel.DataAnnotations;
 using FluentValidation;
+
 namespace Rest_API.Data.Entities;
 
 public class Building
@@ -14,16 +16,39 @@ public class Building
     public DateTimeOffset CreatedAt { get; set; } = DateTimeOffset.UtcNow;
     public DateTimeOffset UpdatedAt { get; set; } = DateTimeOffset.UtcNow;
 
+    [Required]
+    public required string UserId { get; set; }
+    public LandlordRestUser User { get; set; }
+
     public BuildingDto ToDto()
     {
-        return new BuildingDto(Id, Landlord.Id, Name, Address, City, State, ZipCode, NumberOfFloors,
-            createdAt: CreatedAt, updatedAt: UpdatedAt);
+        return new BuildingDto(
+            Id,
+            Landlord.Id,
+            Name,
+            Address,
+            City,
+            State,
+            ZipCode,
+            NumberOfFloors,
+            createdAt: CreatedAt,
+            updatedAt: UpdatedAt
+        );
     }
 }
 
-
-public record BuildingDto(int buildingId, int landlordId, String name, String address,
-    String city, String state, String zipCode, int? numFloors,  DateTimeOffset createdAt, DateTimeOffset updatedAt);
+public record BuildingDto(
+    int buildingId,
+    int landlordId,
+    String name,
+    String address,
+    String city,
+    String state,
+    String zipCode,
+    int? numFloors,
+    DateTimeOffset createdAt,
+    DateTimeOffset updatedAt
+);
 
 public record CreateBuildingDto(
     String name,
@@ -31,19 +56,20 @@ public record CreateBuildingDto(
     String city,
     String state,
     String zipCode,
-    int? numFloors)
+    int? numFloors
+)
 {
     public class CreateBuildingDtoValidator : AbstractValidator<CreateBuildingDto>
     {
         public CreateBuildingDtoValidator()
         {
-            RuleFor(x => x.name).NotEmpty().Length(min:2, max:50);
-            RuleFor(x => x.address).NotEmpty().Length(min:5, max:50);
-            RuleFor(x => x.city).NotEmpty().Length(min:2, max:50);
-            RuleFor(x => x.state).NotEmpty().Length(min:2, max:50);
-            RuleFor(x => x.zipCode).NotEmpty().Length(min:5, max:10);
+            RuleFor(x => x.name).NotEmpty().Length(min: 2, max: 50);
+            RuleFor(x => x.address).NotEmpty().Length(min: 5, max: 50);
+            RuleFor(x => x.city).NotEmpty().Length(min: 2, max: 50);
+            RuleFor(x => x.state).NotEmpty().Length(min: 2, max: 50);
+            RuleFor(x => x.zipCode).NotEmpty().Length(min: 5, max: 10);
         }
-    } 
+    }
 }
 
 public record UpdateBuildingDto(
@@ -52,17 +78,18 @@ public record UpdateBuildingDto(
     String city,
     String state,
     String zipCode,
-    int? numFloors)
+    int? numFloors
+)
 {
     public class UpdateBuildingDtoValidator : AbstractValidator<UpdateBuildingDto>
     {
         public UpdateBuildingDtoValidator()
         {
-            RuleFor(x => x.name).NotEmpty().Length(min:2, max:50);
-            RuleFor(x => x.address).NotEmpty().Length(min:5, max:50);
-            RuleFor(x => x.city).NotEmpty().Length(min:5, max:50);
-            RuleFor(x => x.state).NotEmpty().Length(min:2, max:50);
-            RuleFor(x => x.zipCode).NotEmpty().Length(min:5, max:10);
+            RuleFor(x => x.name).NotEmpty().Length(min: 2, max: 50);
+            RuleFor(x => x.address).NotEmpty().Length(min: 5, max: 50);
+            RuleFor(x => x.city).NotEmpty().Length(min: 5, max: 50);
+            RuleFor(x => x.state).NotEmpty().Length(min: 2, max: 50);
+            RuleFor(x => x.zipCode).NotEmpty().Length(min: 5, max: 10);
         }
-    } 
+    }
 }

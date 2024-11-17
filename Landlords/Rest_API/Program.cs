@@ -17,6 +17,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<LandlordDbContext>();
 builder.Services.AddValidatorsFromAssemblyContaining<Program>();
 builder.Services.AddTransient<JwtTokenService>();
+builder.Services.AddTransient<SessionService>();
 builder.Services.AddScoped<AuthDbSeeder>();
 builder.Services.AddFluentValidationAutoValidation(configuration =>
 {

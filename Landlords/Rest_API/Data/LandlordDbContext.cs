@@ -9,6 +9,7 @@ public class LandlordDbContext : IdentityDbContext<LandlordRestUser>
     public DbSet<Landlord> Landlords { get; set; }
     public DbSet<Building> Buildings { get; set; }
     public DbSet<Flat> Flats { get; set; }
+    public DbSet<Session> Sessions { get; set; }
 
     public LandlordDbContext(IConfiguration configuration)
     {

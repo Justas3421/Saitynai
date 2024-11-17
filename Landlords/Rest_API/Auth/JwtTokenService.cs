@@ -46,18 +46,19 @@ public class JwtTokenService
         return new JwtSecurityTokenHandler().WriteToken(token);
     }
 
-    public string CreateRefreshToken(string userId)
+    public string CreateRefreshToken(Guid sessionId, string userId, DateTime expires)
     {
         var authClaims = new List<Claim>()
         {
             new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
             new(JwtRegisteredClaimNames.Sub, userId),
+            new("SessionId", sessionId.ToString()),
         };
 
         var token = new JwtSecurityToken(
             issuer: _issuer,
             audience: _audience,
-            expires: DateTime.UtcNow.AddHours(24),
+            expires: expires,
             claims: authClaims,
             signingCredentials: new SigningCredentials(
                 _authSigningKey,
@@ -91,4 +92,5 @@ public class JwtTokenService
             return false;
         }
     }
+    
 }

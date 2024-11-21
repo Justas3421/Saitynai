@@ -2895,11 +2895,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "c:\\KTU\\Semestras\\lab\\Landlords\\Rest_API\\Rest_API.csproj",
+      "projectUniqueName": "C:\\KTU\\Semestras\\Saitynai\\Saitynai\\Landlords\\Rest_API\\Rest_API.csproj",
       "projectName": "Rest_API",
-      "projectPath": "c:\\KTU\\Semestras\\lab\\Landlords\\Rest_API\\Rest_API.csproj",
+      "projectPath": "C:\\KTU\\Semestras\\Saitynai\\Saitynai\\Landlords\\Rest_API\\Rest_API.csproj",
       "packagesPath": "C:\\Users\\param\\.nuget\\packages\\",
-      "outputPath": "c:\\KTU\\Semestras\\lab\\Landlords\\Rest_API\\obj\\",
+      "outputPath": "C:\\KTU\\Semestras\\Saitynai\\Saitynai\\Landlords\\Rest_API\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\param\\AppData\\Roaming\\NuGet\\NuGet.Config"

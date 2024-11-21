@@ -1,0 +1,3 @@
+apis:
+  Landlords/Rest_API/OpenAPI.yml:
+    alias: landlord-building-and-flat-manag

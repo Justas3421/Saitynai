@@ -20,7 +20,6 @@ class AuthRepository {
       final String accessToken = data['accessToken'];
       final String refreshToken = data['refreshToken'];
       final Map<String, dynamic> decodedToken = JwtDecoder.decode(accessToken);
-      print(decodedToken);
       // Store tokens or handle them as needed
       return User(
           username: username,

@@ -18,7 +18,7 @@ public class Landlord
 
     public LandlordDto ToDto()
     {
-        return new LandlordDto(Id, Name, Email, PhoneNumber, CreatedAt, UpdatedAt);
+        return new LandlordDto(Id, Name, Email, PhoneNumber, CreatedAt, UpdatedAt, UserId);
     }
 }
 
@@ -28,7 +28,8 @@ public record LandlordDto(
     String email,
     String phone_number,
     DateTimeOffset createdAt,
-    DateTimeOffset updatedAt
+    DateTimeOffset updatedAt,
+    String UserId
 );
 
 public record CreateLandlordDto(String name, String email, String phone_number)

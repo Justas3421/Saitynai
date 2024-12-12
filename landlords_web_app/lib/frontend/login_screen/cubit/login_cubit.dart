@@ -1,7 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
-import 'package:landlords_web_app/backend/auth_repository/models/email.dart';
 import 'package:landlords_web_app/backend/auth_repository/models/password.dart';
 import 'package:landlords_web_app/backend/auth_repository/models/username.dart';
 

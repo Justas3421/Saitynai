@@ -1,68 +1,59 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:landlords_web_app/constants/colors.dart';
 
 class LandingBackground extends StatelessWidget {
-  const LandingBackground({super.key});
+  final String? title;
+  final bool showTopBackButton;
+  const LandingBackground(
+      {super.key, this.title, this.showTopBackButton = false});
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Center(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Transform.translate(
-                offset: const Offset(-100, 0),
-                child: Transform.rotate(
-                  angle: 45 * 3.14 / 180,
-                  child: Container(
-                    color:
-                        const Color.fromRGBO(132, 143, 218, 0.403921568627451),
-                    width: 200,
-                    height: 200,
-                  ),
+    final theme = Theme.of(context);
+    return Scaffold(
+      backgroundColor: Colors.transparent,
+      body: SafeArea(
+        child: Stack(
+          children: [
+            Container(
+              decoration: const BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [Colors.black, Color.fromARGB(255, 34, 2, 53)],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
                 ),
               ),
-              Transform.translate(
-                offset: const Offset(100, 0),
-                child: Transform.rotate(
-                  angle: 45 * 3.14 / 180,
-                  child: Container(
-                    color:
-                        const Color.fromRGBO(132, 143, 218, 0.403921568627451),
-                    width: 200,
-                    height: 200,
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-        SizedBox(
-          width: 200,
-          height: 200,
-          child: BackdropFilter(
-            filter: ImageFilter.blur(sigmaX: 50, sigmaY: 50),
-            child: Container(),
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(top: 70.0),
-          child: Align(
-            alignment: Alignment.topCenter,
-            child: SvgPicture.asset(
-              'assets/logo.svg',
-              // ignore: deprecated_member_use
-              color: Colors.white,
-              width: 100,
-              height: 100,
             ),
-          ),
+            if (title == null) ...{
+              Padding(
+                padding: const EdgeInsets.only(top: 70.0),
+                child: Align(
+                  alignment: Alignment.topCenter,
+                  child: SvgPicture.asset(
+                    'assets/logo.svg',
+                    // ignore: deprecated_member_use
+                    color: Colors.white,
+                    width: 100,
+                    height: 100,
+                  ),
+                ),
+              ),
+            } else ...{
+              Padding(
+                  padding: const EdgeInsets.only(top: 8.0),
+                  child: Align(
+                      alignment: Alignment.topCenter,
+                      child: Text(
+                        title!,
+                        style: theme.textTheme.headlineMedium!.copyWith(
+                          color: ColorSeed.darkPrimaryText.color,
+                        ),
+                      )))
+            }
+          ],
         ),
-      ],
+      ),
     );
   }
 }

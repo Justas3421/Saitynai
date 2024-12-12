@@ -7,8 +7,8 @@ import 'package:landlords_web_app/frontend/landlords_screen/cubit/landlords_cubi
 import 'package:landlords_web_app/frontend/login_screen/widgets/landing_background.dart';
 import 'package:intl/intl.dart';
 
-class LandlordsScreen extends StatelessWidget {
-  const LandlordsScreen({super.key});
+class ProperyManagementScreen extends StatelessWidget {
+  const ProperyManagementScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +31,7 @@ class LandlordsScreen extends StatelessWidget {
               body: Stack(
                 children: [
                   const LandingBackground(
-                    title: "Landlord list",
+                    title: "Property Management",
                   ),
                   SafeArea(
                     child: Padding(

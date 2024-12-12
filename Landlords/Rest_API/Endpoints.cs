@@ -56,7 +56,6 @@ public static class Endpoints
 
         landlordsGroup.MapPut(
             "/landlords/{landlordId}",
-            [Authorize(Roles = LandlordRoles.Landlord)]
             async (
                 int landlordId,
                 UpdateLandlordDto dto,
@@ -70,14 +69,6 @@ public static class Endpoints
                     return Results.NotFound();
                 }
 
-                if (
-                    !httpContext.User.IsInRole(LandlordRoles.Landlord)
-                    || httpContext.User.FindFirstValue(ClaimTypes.NameIdentifier) != landlord.UserId
-                )
-                {
-                    return Results.Forbid();
-                }
-
                 landlord.Name = dto.name;
                 landlord.Email = dto.email;
                 landlord.PhoneNumber = dto.phone_number;
@@ -89,24 +80,12 @@ public static class Endpoints
 
         landlordsGroup.MapDelete(
             "/landlords/{landlordId}",
-            [Authorize(Roles = LandlordRoles.Landlord)]
-            [Authorize(Roles = LandlordRoles.Admin)]
             async (int landlordId, HttpContext httpContext, LandlordDbContext dbContext) =>
             {
                 var landlord = await dbContext.Landlords.FindAsync(landlordId);
                 if (landlord == null)
                 {
                     return Results.NotFound();
-                }
-                if (
-                    (
-                        !httpContext.User.IsInRole(LandlordRoles.Landlord)
-                        && httpContext.User.FindFirstValue(JwtRegisteredClaimNames.Sub)
-                            != landlord.UserId
-                    ) || !httpContext.User.IsInRole(LandlordRoles.Admin)
-                )
-                {
-                    return Results.Forbid();
                 }
                 dbContext.Landlords.Remove(landlord);
                 await dbContext.SaveChangesAsync();
@@ -178,16 +157,7 @@ public static class Endpoints
                 {
                     return Results.NotFound();
                 }
-                if (
-                    (
-                        !httpContext.User.IsInRole(LandlordRoles.Landlord)
-                        && httpContext.User.FindFirstValue(JwtRegisteredClaimNames.Sub)
-                            != landlord.UserId
-                    )
-                )
-                {
-                    return Results.Forbid();
-                }
+
                 var building = new Building
                 {
                     Landlord = landlord,
@@ -197,7 +167,7 @@ public static class Endpoints
                     State = dto.state,
                     ZipCode = dto.zipCode,
                     NumberOfFloors = dto.numFloors,
-                    UserId = httpContext.User.FindFirstValue(JwtRegisteredClaimNames.Sub),
+                    UserId = landlord.UserId,
                 };
                 dbContext.Buildings.Add(building);
                 await dbContext.SaveChangesAsync();
@@ -232,16 +202,7 @@ public static class Endpoints
                 {
                     return Results.NotFound();
                 }
-                if (
-                    (
-                        !httpContext.User.IsInRole(LandlordRoles.Landlord)
-                        && httpContext.User.FindFirstValue(JwtRegisteredClaimNames.Sub)
-                            != landlord.UserId
-                    ) || !httpContext.User.IsInRole(LandlordRoles.Admin)
-                )
-                {
-                    return Results.Forbid();
-                }
+
                 building.Name = dto.name;
                 building.Address = dto.address;
                 building.City = dto.city;
@@ -276,16 +237,6 @@ public static class Endpoints
                 )
                 {
                     return Results.NotFound();
-                }
-                if (
-                    (
-                        !httpContext.User.IsInRole(LandlordRoles.Landlord)
-                        && httpContext.User.FindFirstValue(JwtRegisteredClaimNames.Sub)
-                            != landlord.UserId
-                    ) || !httpContext.User.IsInRole(LandlordRoles.Admin)
-                )
-                {
-                    return Results.Forbid();
                 }
                 dbContext.Buildings.Remove(building);
                 await dbContext.SaveChangesAsync();
@@ -371,16 +322,7 @@ public static class Endpoints
                 {
                     return Results.NotFound();
                 }
-                if (
-                    (
-                        !httpContext.User.IsInRole(LandlordRoles.Landlord)
-                        && httpContext.User.FindFirstValue(JwtRegisteredClaimNames.Sub)
-                            != landlord.UserId
-                    )
-                )
-                {
-                    return Results.Forbid();
-                }
+
                 var flat = new Flat
                 {
                     Building = building,
@@ -392,7 +334,7 @@ public static class Endpoints
                     TenantName = dto.tenantName,
                     CreatedAt = DateTimeOffset.UtcNow,
                     UpdatedAt = DateTimeOffset.UtcNow,
-                    UserId = httpContext.User.FindFirstValue(JwtRegisteredClaimNames.Sub),
+                    UserId = landlord.UserId,
                 };
                 dbContext.Flats.Add(flat);
                 await dbContext.SaveChangesAsync();
@@ -438,16 +380,7 @@ public static class Endpoints
                 {
                     return Results.NotFound();
                 }
-                if (
-                    (
-                        !httpContext.User.IsInRole(LandlordRoles.Landlord)
-                        && httpContext.User.FindFirstValue(JwtRegisteredClaimNames.Sub)
-                            != landlord.UserId
-                    ) || !httpContext.User.IsInRole(LandlordRoles.Admin)
-                )
-                {
-                    return Results.Forbid();
-                }
+
                 flat.FlatNumber = dto.flatNumber;
                 flat.NumberOfBedrooms = dto.numBedrooms;
                 flat.NumberOfBathrooms = dto.numBathrooms;
@@ -462,8 +395,6 @@ public static class Endpoints
 
         flatsGroup.MapDelete(
             "flats/{flatId}",
-            [Authorize(Roles = LandlordRoles.Landlord)]
-            [Authorize(Roles = LandlordRoles.Admin)]
             async (
                 int landlordId,
                 int buildingId,
@@ -496,16 +427,7 @@ public static class Endpoints
                 {
                     return Results.NotFound();
                 }
-                if (
-                    (
-                        !httpContext.User.IsInRole(LandlordRoles.Landlord)
-                        && httpContext.User.FindFirstValue(JwtRegisteredClaimNames.Sub)
-                            != landlord.UserId
-                    ) || !httpContext.User.IsInRole(LandlordRoles.Admin)
-                )
-                {
-                    return Results.Forbid();
-                }
+
                 dbContext.Flats.Remove(flat);
                 await dbContext.SaveChangesAsync();
                 return TypedResults.Ok(flat.toDto());

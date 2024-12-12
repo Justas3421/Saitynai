@@ -166,7 +166,6 @@ public static class Endpoints
 
         buildingsGroup.MapPost(
             "buildings",
-            [Authorize(Roles = LandlordRoles.Landlord)]
             async (
                 int landlordId,
                 LandlordDbContext dbContext,
@@ -211,8 +210,6 @@ public static class Endpoints
 
         buildingsGroup.MapPut(
             "buildings/{buildingId}",
-            [Authorize(Roles = LandlordRoles.Landlord)]
-            [Authorize(Roles = LandlordRoles.Admin)]
             async (
                 int landlordId,
                 int buildingId,
@@ -259,8 +256,6 @@ public static class Endpoints
 
         buildingsGroup.MapDelete(
             "buildings/{buildingId}",
-            [Authorize(Roles = LandlordRoles.Landlord)]
-            [Authorize(Roles = LandlordRoles.Admin)]
             async (
                 int landlordId,
                 int buildingId,
@@ -354,7 +349,6 @@ public static class Endpoints
 
         flatsGroup.MapPost(
             "flats",
-            [Authorize(Roles = LandlordRoles.Landlord)]
             async (
                 int buildingId,
                 int landlordId,
@@ -411,8 +405,6 @@ public static class Endpoints
 
         flatsGroup.MapPut(
             "flats/{flatId}",
-            [Authorize(Roles = LandlordRoles.Landlord)]
-            [Authorize(Roles = LandlordRoles.Admin)]
             async (
                 int landlordId,
                 int buildingId,

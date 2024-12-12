@@ -29,7 +29,7 @@ class LoginButton extends StatelessWidget {
                       if (state.isValid) {
                         context
                             .read<AuthCubit>()
-                            .login(state.email.value, state.password.value);
+                            .login(state.username.value, state.password.value);
                       }
                     },
                     child: Padding(

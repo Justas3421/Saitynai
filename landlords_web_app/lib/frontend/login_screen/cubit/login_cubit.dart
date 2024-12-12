@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
 import 'package:landlords_web_app/backend/auth_repository/models/email.dart';
 import 'package:landlords_web_app/backend/auth_repository/models/password.dart';
+import 'package:landlords_web_app/backend/auth_repository/models/username.dart';
 
 part 'login_state.dart';
 
@@ -13,15 +14,15 @@ class LoginCubit extends Cubit<LoginState> {
   /// Validates the email and updates the state accordingly.
   ///
   /// [value] - The new value of the email input.
-  void emailChanged(String value) {
+  void usernameChanged(String value) {
     // Create an 'Email' object that is marked as 'dirty' to indicate it has been modified.
-    final email = Email.dirty(value);
+    final username = Username.dirty(value);
 
     emit(
       state.copyWith(
-        email: email,
+        username: username,
         // Validate the form using the Formz library, checking both email and password.
-        isValid: Formz.validate([email, state.password]),
+        isValid: Formz.validate([username, state.password]),
       ),
     );
   }
@@ -38,7 +39,7 @@ class LoginCubit extends Cubit<LoginState> {
       state.copyWith(
         password: password,
         // Validate the form using the Formz library, checking both email and password.
-        isValid: Formz.validate([state.email, password]),
+        isValid: Formz.validate([state.username, password]),
       ),
     );
   }

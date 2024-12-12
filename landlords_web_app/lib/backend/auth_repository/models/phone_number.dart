@@ -16,13 +16,13 @@ class PhoneNumber extends FormzInput<String, PhoneNumberValidationError> {
   /// {@macro email}
   const PhoneNumber.dirty([super.value = '']) : super.dirty();
 
-  static final RegExp _emailRegExp = RegExp(
-    r"^[a-zA-Z]+(?:[ '-][a-zA-Z]+)*$",
+  static final RegExp _phoneRegExp = RegExp(
+    r"^\d{10,15}$",
   );
 
   @override
   PhoneNumberValidationError? validator(String? value) {
-    return _emailRegExp.hasMatch(value ?? '')
+    return _phoneRegExp.hasMatch(value ?? '')
         ? null
         : PhoneNumberValidationError.invalid;
   }

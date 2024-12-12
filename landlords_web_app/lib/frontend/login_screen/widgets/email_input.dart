@@ -3,21 +3,22 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:landlords_web_app/constants/colors.dart';
 import 'package:landlords_web_app/frontend/login_screen/cubit/login_cubit.dart';
 
-class EmailInput extends StatelessWidget {
-  const EmailInput({super.key});
+class UsernameInput extends StatelessWidget {
+  const UsernameInput({super.key});
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return BlocBuilder<LoginCubit, LoginState>(
-      buildWhen: (previous, current) => previous.email != current.email,
+      buildWhen: (previous, current) => previous.username != current.username,
       builder: (context, state) {
         return TextField(
-          key: const Key('loginForm_emailInput_textField'),
+          key: const Key('loginForm_usernameInput_textField'),
           style: theme.textTheme.bodyMedium!
               .copyWith(color: ColorSeed.darkPrimaryText.color),
-          onChanged: (email) => context.read<LoginCubit>().emailChanged(email),
-          keyboardType: TextInputType.emailAddress,
+          onChanged: (username) =>
+              context.read<LoginCubit>().usernameChanged(username),
+          keyboardType: TextInputType.text,
           decoration: InputDecoration(
             labelText: 'Username',
             labelStyle: TextStyle(color: ColorSeed.darkSecondaryText.color),
@@ -29,7 +30,7 @@ class EmailInput extends StatelessWidget {
             hoverColor: LandingPageColors.accentColor.color,
             helperText: '',
             errorText:
-                state.email.displayError != null ? 'Invalid email' : null,
+                state.username.displayError != null ? 'Invalid username' : null,
           ),
         );
       },

@@ -6,6 +6,7 @@ import 'package:landlords_web_app/backend/landlords_repository/landlords_reposit
 import 'package:landlords_web_app/constants/nav_bar.dart';
 import 'package:landlords_web_app/frontend/auth_screen/cubit/auth_cubit.dart';
 import 'package:landlords_web_app/frontend/landlords_screen/cubit/landlords_cubit.dart';
+import 'package:landlords_web_app/frontend/landlords_screen/landlords_screen.dart';
 import 'package:landlords_web_app/frontend/login_screen/login_screen.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 
@@ -40,7 +41,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       home: NavBar(
-        child: const LoginPage(),
+        child: const LandlordsScreen(),
       ),
     );
   }

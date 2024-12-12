@@ -39,7 +39,7 @@ class LoginForm extends StatelessWidget {
                       style: theme.textTheme.bodyMedium!
                           .copyWith(color: ColorSeed.darkSecondaryText.color),
                     ),
-                    const EmailInput(),
+                    const UsernameInput(),
                     const PasswordInput(),
                     Center(
                       child: ResponsiveRowColumn(

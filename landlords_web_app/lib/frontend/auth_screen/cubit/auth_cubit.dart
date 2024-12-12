@@ -18,9 +18,16 @@ class AuthCubit extends Cubit<AuthState> {
     emit(state.copyWith(status: AuthStatus.authenticated, user: user));
   }
 
-  Future<void> register(String email, String password, String name) async {
-    emit(state.copyWith(status: AuthStatus.inProgressRegister));
-    await _authRepository.register(email, password, name);
-    emit(state.copyWith(status: AuthStatus.authenticated));
+  Future<void> register(
+    String email,
+    String password,
+    String name,
+    UserRole role,
+  ) async {
+    emit(state.copyWith(
+      status: AuthStatus.inProgressRegister,
+    ));
+    User user = await _authRepository.register(email, password, name, role);
+    emit(state.copyWith(status: AuthStatus.authenticated, user: user));
   }
 }

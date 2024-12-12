@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:landlords_web_app/constants/colors.dart';
+import 'package:landlords_web_app/frontend/auth_screen/auth_screen.dart';
 import 'package:landlords_web_app/frontend/landlords_screen/landlords_screen.dart';
 import 'package:landlords_web_app/frontend/login_screen/login_screen.dart';
 import 'package:landlords_web_app/main.dart';
@@ -74,7 +75,7 @@ class _NavBarState extends State<NavBar> {
                 IconButton(
                   icon: const Icon(Icons.account_circle),
                   onPressed: () {
-                    _setChild(const LoginPage());
+                    _setChild(const AuthScreen());
                   },
                 ),
                 IconButton(
@@ -125,7 +126,7 @@ class _NavBarState extends State<NavBar> {
                 leading: const Icon(Icons.account_circle),
                 title: const Text('Profile'),
                 onTap: () {
-                  _setChild(const LoginPage());
+                  _setChild(const AuthScreen());
                   Navigator.pop(context);
                 },
               ),

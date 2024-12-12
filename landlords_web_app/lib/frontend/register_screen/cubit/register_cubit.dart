@@ -7,6 +7,7 @@ import 'package:landlords_web_app/backend/auth_repository/models/name.dart';
 import 'package:landlords_web_app/backend/auth_repository/models/password.dart';
 import 'package:landlords_web_app/backend/auth_repository/models/phone_number.dart';
 import 'package:landlords_web_app/backend/auth_repository/models/surname.dart';
+import 'package:landlords_web_app/backend/auth_repository/models/user.dart';
 
 part 'register_state.dart';
 
@@ -105,6 +106,16 @@ class RegisterCubit extends Cubit<RegisterState> {
         state.phoneNumber,
         name,
       ]),
+    ));
+  }
+
+  void userRoleChanged(String value) {
+    final UserRole role =
+        value == 'Renter' ? UserRole.simple : UserRole.landlord;
+
+    emit(state.copyWith(
+      role: role,
+      isValid: true,
     ));
   }
 }

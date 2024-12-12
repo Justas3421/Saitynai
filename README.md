@@ -13,10 +13,10 @@ Sistema užtikrins saugią autentifikaciją ir autorizaciją, naudojant JWT, už
 # Architektūros diagrama #
 
 Diegimo diagrama
-![alt text](image.png)
+![DeployementDiagram](https://github.com/Justas3421/Saitynai/blob/main/deployement_diagram.png)
 
 Paketų diagrama
-![alt text](image-1.png)
+![PackageDiagram](https://github.com/Justas3421/Saitynai/blob/main/package_diagram.png)
 
 # Sąsajų specifikacija #
 [text](Landlords/Rest_API/OpenAPI.yml)

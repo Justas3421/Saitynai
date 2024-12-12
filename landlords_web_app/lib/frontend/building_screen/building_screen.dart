@@ -7,14 +7,17 @@ import 'package:landlords_web_app/backend/landlords_repository/landlord.dart';
 import 'package:landlords_web_app/constants/nav_bar.dart';
 import 'package:landlords_web_app/frontend/auth_screen/cubit/auth_cubit.dart';
 import 'package:landlords_web_app/frontend/building_screen/cubit/buildings_cubit.dart';
+import 'package:landlords_web_app/frontend/building_screen/update_building_dialog.dart';
 import 'package:landlords_web_app/frontend/flats_screen/flats_screen.dart';
 import 'package:landlords_web_app/frontend/login_screen/widgets/landing_background.dart';
 import 'package:intl/intl.dart';
 
 class BuildingScreen extends StatelessWidget {
+  final bool isManagment;
   final Landlord landlord;
 
-  const BuildingScreen({super.key, required this.landlord});
+  const BuildingScreen(
+      {super.key, required this.landlord, this.isManagment = false});
 
   @override
   Widget build(BuildContext context) {
@@ -30,6 +33,15 @@ class BuildingScreen extends StatelessWidget {
             } else if (state.status == BuildingStatus.success) {
               return Scaffold(
                 backgroundColor: Colors.transparent,
+                floatingActionButton: isManagment
+                    ? FloatingActionButton(
+                        backgroundColor: Colors.amber,
+                        onPressed: () {
+                          _addBuilding(context);
+                        },
+                        child: const Icon(Icons.add, color: Colors.black),
+                      )
+                    : null,
                 body: Stack(
                   children: [
                     LandingBackground(
@@ -44,14 +56,16 @@ class BuildingScreen extends StatelessWidget {
                           itemCount: state.buildings.length,
                           itemBuilder: (context, index) {
                             final building = state.buildings[index];
-                            final bool canEdit = context
-                                        .read<AuthCubit>()
-                                        .state
-                                        .user
-                                        .role ==
-                                    UserRole.admin ||
-                                context.read<AuthCubit>().state.user.userId ==
-                                    landlord.landlordId;
+                            final bool canEdit = isManagment
+                                ? context.read<AuthCubit>().state.user.role ==
+                                        UserRole.admin ||
+                                    context
+                                            .read<AuthCubit>()
+                                            .state
+                                            .user
+                                            .userId ==
+                                        landlord.userId
+                                : false;
                             return Card(
                               color: Colors.grey[900],
                               elevation: 8,
@@ -124,8 +138,7 @@ class BuildingScreen extends StatelessWidget {
                                         ElevatedButton(
                                           onPressed: () {
                                             Navigator.of(context).push(
-                                              _createRoute(landlord.landlordId,
-                                                  building.buildingId),
+                                              _createRoute(landlord, building),
                                             );
                                           },
                                           style: ElevatedButton.styleFrom(
@@ -142,8 +155,8 @@ class BuildingScreen extends StatelessWidget {
                                         if (canEdit) ...[
                                           ElevatedButton(
                                             onPressed: () {
-                                              // Add update logic here
-                                              _updateBuilding(building);
+                                              _updateBuilding(
+                                                  building, context);
                                             },
                                             style: ElevatedButton.styleFrom(
                                               backgroundColor: Colors.blue,
@@ -158,8 +171,12 @@ class BuildingScreen extends StatelessWidget {
                                           ),
                                           ElevatedButton(
                                             onPressed: () {
-                                              // Add delete logic here
-                                              _deleteBuilding(building);
+                                              context
+                                                  .read<BuildingCubit>()
+                                                  .deleteBuilding(
+                                                      landlord.landlordId,
+                                                      building.buildingId,
+                                                      building);
                                             },
                                             style: ElevatedButton.styleFrom(
                                               backgroundColor: Colors.red,
@@ -202,14 +219,44 @@ class BuildingScreen extends StatelessWidget {
     );
   }
 
-  Route _createRoute(int landlord, int building) {
+  void _addBuilding(BuildContext context) async {
+    final newBuilding = await showDialog<Building>(
+      context: context,
+      builder: (context) {
+        return UpdateBuildingDialog(
+          building: Building(
+            buildingId:
+                0, // Temporary ID, backend should generate the actual ID
+            landlordId: landlord.landlordId,
+            name: '',
+            address: '',
+            city: '',
+            state: '',
+            zipCode: '',
+            numberOfFloors: 1,
+            createdAt: DateTime.now(),
+            updatedAt: DateTime.now(),
+          ),
+        );
+      },
+    );
+
+    if (newBuilding != null) {
+      context
+          .read<BuildingCubit>()
+          .addBuilding(landlord.landlordId, newBuilding);
+    }
+  }
+
+  Route _createRoute(Landlord landlord, Building building) {
     return PageRouteBuilder(
       pageBuilder: (context, animation, secondaryAnimation) => FlatScreen(
         buildingId: building,
         landlordId: landlord,
+        isManagement: isManagment,
       ),
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
-        const begin = Offset(0.0, 1.0); // Change to come from the bottom
+        const begin = Offset(0.0, 1.0);
         const end = Offset.zero;
         const curve = Curves.ease;
 
@@ -217,35 +264,27 @@ class BuildingScreen extends StatelessWidget {
             Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
         var offsetAnimation = animation.drive(tween);
 
-        var scaleTween =
-            Tween<double>(begin: 0.8, end: 1.0).chain(CurveTween(curve: curve));
-        var scaleAnimation = animation.drive(scaleTween);
-
-        var fadeTween =
-            Tween<double>(begin: 0.0, end: 1.0).chain(CurveTween(curve: curve));
-        var fadeAnimation = animation.drive(fadeTween);
-
         return SlideTransition(
           position: offsetAnimation,
-          child: ScaleTransition(
-            scale: scaleAnimation,
-            child: FadeTransition(
-              opacity: fadeAnimation,
-              child: child,
-            ),
-          ),
+          child: child,
         );
       },
     );
   }
 
-  void _deleteBuilding(Building building) {
-    // Add your delete logic here, such as calling the backend API
-    print('Delete Building: ${building.name}');
-  }
+  void _updateBuilding(Building building, BuildContext context) async {
+    final updatedBuilding = await showDialog<Building>(
+      context: context,
+      builder: (context) {
+        return UpdateBuildingDialog(
+          building: building,
+        );
+      },
+    );
 
-  void _updateBuilding(Building building) {
-    // Add your update logic here, such as opening an update form
-    print('Update Building: ${building.name}');
+    if (updatedBuilding != null) {
+      context.read<BuildingCubit>().updateBuilding(
+          landlord.landlordId, building.buildingId, updatedBuilding);
+    }
   }
 }

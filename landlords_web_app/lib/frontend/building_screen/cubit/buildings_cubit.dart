@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -15,6 +17,60 @@ class BuildingCubit extends Cubit<BuildingState> {
     try {
       List<Building> buildings =
           await _buildingRepository.fetchBuildings(landlordId);
+      emit(
+          state.copyWith(status: BuildingStatus.success, buildings: buildings));
+    } catch (e, stackTrace) {
+      // Log the error and stack trace for debugging purposes
+      debugPrint('Error fetching buildings: $e');
+      debugPrint('Stack trace: $stackTrace');
+      emit(state.copyWith(status: BuildingStatus.error));
+    }
+  }
+
+  Future<void> updateBuilding(
+      int landlordId, int buildingId, Building building) async {
+    emit(state.copyWith(status: BuildingStatus.loading));
+    try {
+      List<Building> buildings = List.from(state.buildings);
+      buildings[buildings.indexWhere(
+          (element) => element.buildingId == buildingId)] = building;
+      unawaited(_buildingRepository.updateBuilding(
+          landlordId: landlordId, buildingId: buildingId, building));
+      emit(
+          state.copyWith(status: BuildingStatus.success, buildings: buildings));
+    } catch (e, stackTrace) {
+      // Log the error and stack trace for debugging purposes
+      debugPrint('Error fetching buildings: $e');
+      debugPrint('Stack trace: $stackTrace');
+      emit(state.copyWith(status: BuildingStatus.error));
+    }
+  }
+
+  Future<void> addBuilding(int landlordId, Building building) async {
+    emit(state.copyWith(status: BuildingStatus.loading));
+    try {
+      List<Building> buildings = List.from(state.buildings);
+      buildings.add(building);
+      unawaited(
+          _buildingRepository.createBuilding(landlordId: landlordId, building));
+      emit(
+          state.copyWith(status: BuildingStatus.success, buildings: buildings));
+    } catch (e, stackTrace) {
+      // Log the error and stack trace for debugging purposes
+      debugPrint('Error fetching buildings: $e');
+      debugPrint('Stack trace: $stackTrace');
+      emit(state.copyWith(status: BuildingStatus.error));
+    }
+  }
+
+  Future<void> deleteBuilding(
+      int landlordId, int buildingId, Building building) async {
+    emit(state.copyWith(status: BuildingStatus.loading));
+    try {
+      List<Building> buildings = List.from(state.buildings);
+      buildings.remove(building);
+      unawaited(_buildingRepository.deleteBuilding(
+          landlordId: landlordId, buildingId: buildingId));
       emit(
           state.copyWith(status: BuildingStatus.success, buildings: buildings));
     } catch (e, stackTrace) {

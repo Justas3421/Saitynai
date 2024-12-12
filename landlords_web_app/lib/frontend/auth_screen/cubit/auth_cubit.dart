@@ -30,4 +30,12 @@ class AuthCubit extends Cubit<AuthState> {
     User user = await _authRepository.register(email, password, name, role);
     emit(state.copyWith(status: AuthStatus.authenticated, user: user));
   }
+
+  Future<void> logout() async {
+    emit(state.copyWith(
+      status: AuthStatus.inProgressLogin,
+    ));
+    await _authRepository.logout(state.user.refreshToken);
+    emit(state.copyWith(status: AuthStatus.authenticated, user: User.empty));
+  }
 }

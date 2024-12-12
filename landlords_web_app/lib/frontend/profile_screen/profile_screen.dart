@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:landlords_web_app/backend/auth_repository/models/user.dart';
 import 'package:landlords_web_app/constants/colors.dart';
+import 'package:landlords_web_app/frontend/auth_screen/cubit/auth_cubit.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -55,8 +57,6 @@ class ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // final theme = Theme.of(context);
-
     // Determine responsive sizes
     final bool isTablet =
         ResponsiveBreakpoints.of(context).largerThan(MOBILE) &&
@@ -154,6 +154,23 @@ class ProfileScreenState extends State<ProfileScreen> {
                         _isEditing ? 'Save' : 'Edit',
                         style: const TextStyle(
                           color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    ElevatedButton(
+                      onPressed: context.read<AuthCubit>().logout,
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.red,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                      ),
+                      child: const Text(
+                        'Logout',
+                        style: TextStyle(
+                          color: Colors.white,
                           fontWeight: FontWeight.bold,
                         ),
                       ),

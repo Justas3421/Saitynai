@@ -45,8 +45,7 @@ class FlatRepository {
     }
   }
 
-  Future<void> createFlat(String flatNumber, int numBedrooms, int numBathrooms,
-      double rent, bool isOccupied, String tenantName,
+  Future<void> createFlat(Flat flat,
       {required int landlordId, required int buildingId}) async {
     final url =
         Uri.parse('$_apiUrl/landlords/$landlordId/buildings/$buildingId/flats');
@@ -54,12 +53,12 @@ class FlatRepository {
       url,
       headers: {'Content-Type': 'application/json'},
       body: jsonEncode({
-        "flatNumber": flatNumber,
-        "numBedrooms": numBedrooms,
-        "numBathrooms": numBathrooms,
-        "rent": rent,
-        "isOccupied": isOccupied,
-        "tenantName": tenantName
+        "flatNumber": flat.flatNumber,
+        "numBedrooms": flat.numBedrooms,
+        "numBathrooms": flat.numBathrooms,
+        "rent": flat.rent,
+        "isOccupied": flat.isOccupied,
+        "tenantName": flat.tenantName
       }),
     );
     if (response.statusCode == 201) {
@@ -70,8 +69,7 @@ class FlatRepository {
     }
   }
 
-  Future<void> updateFlat(String flatNumber, int numBedrooms, int numBathrooms,
-      double rent, bool isOccupied, String tenantName,
+  Future<void> updateFlat(Flat flat,
       {required int landlordId,
       required int buildingId,
       required int flatId}) async {
@@ -81,15 +79,14 @@ class FlatRepository {
       url,
       headers: {'Content-Type': 'application/json'},
       body: jsonEncode({
-        "flatNumber": flatNumber,
-        "numBedrooms": numBedrooms,
-        "numBathrooms": numBathrooms,
-        "rent": rent,
-        "isOccupied": isOccupied,
-        "tenantName": tenantName
+        "flatNumber": flat.flatNumber,
+        "numBedrooms": flat.numBedrooms,
+        "numBathrooms": flat.numBathrooms,
+        "rent": flat.rent,
+        "isOccupied": flat.isOccupied
       }),
     );
-    if (response.statusCode == 201) {
+    if (response.statusCode == 200) {
       return;
     } else {
       // Handle error

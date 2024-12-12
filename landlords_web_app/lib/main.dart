@@ -62,8 +62,8 @@ class MyApp extends StatelessWidget {
         ),
         useMaterial3: true,
       ),
-      home: NavBar(
-        child: const LandlordsScreen(),
+      home: const NavBar(
+        child: LandlordsScreen(),
       ),
     );
   }

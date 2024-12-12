@@ -43,20 +43,19 @@ class BuildingRepository {
     }
   }
 
-  Future<void> createBuilding(String name, String address, String city,
-      String state, String zipCode, String numFloors,
+  Future<void> createBuilding(Building building,
       {required int landlordId}) async {
     final url = Uri.parse('$_apiUrl/landlords/$landlordId/buildings');
     final response = await http.post(
       url,
       headers: {'Content-Type': 'application/json'},
       body: jsonEncode({
-        "name": name,
-        "address": address,
-        "city": city,
-        "state": state,
-        "zipCode": zipCode,
-        "numFloors": numFloors
+        "name": building.name,
+        "address": building.address,
+        "city": building.city,
+        "state": building.state,
+        "zipCode": building.zipCode,
+        "numFloors": building.numberOfFloors
       }),
     );
     if (response.statusCode == 201) {
@@ -67,23 +66,20 @@ class BuildingRepository {
     }
   }
 
-  Future<void> updateBuilding(String name, String address, String city,
-      String state, String zipCode, String numFloors,
+  Future<void> updateBuilding(Building building,
       {required int landlordId, required int buildingId}) async {
     final url =
         Uri.parse('$_apiUrl/landlords/$landlordId/buildings/$buildingId');
-    final response = await http.put(
-      url,
-      headers: {'Content-Type': 'application/json'},
-      body: jsonEncode({
-        "name": name,
-        "address": address,
-        "city": city,
-        "state": state,
-        "zipCode": zipCode,
-        "numFloors": numFloors
-      }),
-    );
+    final response = await http.put(url,
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({
+          "name": building.name,
+          "address": building.address,
+          "city": building.city,
+          "state": building.state,
+          "zipCode": building.zipCode,
+          "numFloors": building.numberOfFloors
+        }));
     if (response.statusCode == 201) {
       return;
     } else {

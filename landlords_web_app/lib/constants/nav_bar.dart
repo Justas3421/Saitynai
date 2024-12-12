@@ -3,26 +3,26 @@ import 'package:landlords_web_app/constants/colors.dart';
 import 'package:landlords_web_app/constants/top_back_button.dart';
 import 'package:landlords_web_app/frontend/auth_screen/auth_screen.dart';
 import 'package:landlords_web_app/frontend/landlords_screen/landlords_screen.dart';
-import 'package:landlords_web_app/frontend/propery_management_screen/propery_management_screen.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 
-// ignore: must_be_immutable
 class NavBar extends StatefulWidget {
-  Widget child;
-  NavBar({required this.child, super.key});
+  final Widget child;
+
+  const NavBar({required this.child, super.key});
 
   @override
   State<NavBar> createState() => _NavBarState();
 }
 
 class _NavBarState extends State<NavBar> {
-  void _setChild(Widget child) {
-    setState(() {
-      widget.child = child;
-    });
-  }
-
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
+  void _navigateTo(BuildContext context, Widget child) {
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => NavBar(child: child)),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -52,8 +52,8 @@ class _NavBarState extends State<NavBar> {
               leading: const Icon(Icons.home),
               title: const Text('Home'),
               onTap: () {
-                _setChild(const LandlordsScreen());
-                Navigator.pop(context); // Close the drawer after navigation
+                Navigator.popUntil(context, (route) => route.isFirst);
+                _navigateTo(context, const LandlordsScreen());
               },
             ),
             ListTile(
@@ -62,18 +62,21 @@ class _NavBarState extends State<NavBar> {
               leading: const Icon(Icons.account_circle),
               title: const Text('Profile'),
               onTap: () {
-                _setChild(const AuthScreen());
-                Navigator.pop(context); // Close the drawer after navigation
+                Navigator.popUntil(context, (route) => route.isFirst);
+                _navigateTo(context, const AuthScreen());
               },
             ),
             ListTile(
               iconColor: Colors.white,
               textColor: Colors.white,
               leading: const Icon(Icons.settings),
-              title: const Text('Property managment'),
+              title: const Text('Property management'),
               onTap: () {
-                _setChild(const ProperyManagementScreen());
-                Navigator.pop(context); // Close the drawer after navigation
+                Navigator.popUntil(context, (route) => route.isFirst);
+                _navigateTo(
+                  context,
+                  const LandlordsScreen(isManagment: true),
+                );
               },
             ),
           ],
@@ -139,21 +142,26 @@ class _NavBarState extends State<NavBar> {
                                 icon:
                                     const Icon(Icons.home, color: Colors.white),
                                 onPressed: () {
-                                  _setChild(const LandlordsScreen());
+                                  _navigateTo(context, const LandlordsScreen());
                                 },
                               ),
                               IconButton(
                                 icon: const Icon(Icons.account_circle,
                                     color: Colors.white),
                                 onPressed: () {
-                                  _setChild(const AuthScreen());
+                                  _navigateTo(context, const AuthScreen());
                                 },
                               ),
                               IconButton(
                                 icon: const Icon(Icons.sticky_note_2,
                                     color: Colors.white),
                                 onPressed: () {
-                                  _setChild(const ProperyManagementScreen());
+                                  _navigateTo(
+                                    context,
+                                    const LandlordsScreen(
+                                      isManagment: true,
+                                    ),
+                                  );
                                 },
                               ),
                             ],

@@ -21,14 +21,21 @@ class AuthRepository {
       final String refreshToken = data['refreshToken'];
       final Map<String, dynamic> decodedToken = JwtDecoder.decode(accessToken);
       // Store tokens or handle them as needed
-      return User(
+      var user = User(
           username: username,
           password: password,
           accessToken: accessToken,
           refreshToken: refreshToken,
           role: UserRoleExtension.fromString(decodedToken[
-              "http://schemas.microsoft.com/ws/2008/06/identity/claims/role"]),
+                      "http://schemas.microsoft.com/ws/2008/06/identity/claims/role"]
+                  is List<dynamic>
+              ? decodedToken[
+                      "http://schemas.microsoft.com/ws/2008/06/identity/claims/role"]
+                  [0]
+              : decodedToken[
+                  "http://schemas.microsoft.com/ws/2008/06/identity/claims/role"]),
           userId: decodedToken["sub"]);
+      return user;
     } else {
       // Handle error
       throw Exception('Failed to login');
@@ -57,7 +64,20 @@ class AuthRepository {
     }
   }
 
-  Future<void> logout() async {
-    // Logout logic
+  Future<void> logout(String refreshToken) async {
+    final url = Uri.parse('$_apiUrl/register');
+    final response = await http.post(
+      url,
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode({
+        "refreshToken": refreshToken,
+      }),
+    );
+    if (response.statusCode == 201) {
+      return;
+    } else {
+      // Handle error
+      throw Exception('Failed to register');
+    }
   }
 }

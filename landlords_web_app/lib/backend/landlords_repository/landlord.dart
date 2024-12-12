@@ -7,6 +7,7 @@ class Landlord extends Equatable {
   final String phoneNumber;
   final DateTime createdAt;
   final DateTime updatedAt;
+  final String userId;
 
   const Landlord({
     required this.landlordId,
@@ -15,6 +16,7 @@ class Landlord extends Equatable {
     required this.phoneNumber,
     required this.createdAt,
     required this.updatedAt,
+    required this.userId,
   });
 
   factory Landlord.fromJson(Map<String, dynamic> json) {
@@ -25,6 +27,7 @@ class Landlord extends Equatable {
       phoneNumber: json['phone_number'],
       createdAt: DateTime.parse(json['createdAt']),
       updatedAt: DateTime.parse(json['updatedAt']),
+      userId: json['userId'],
     );
   }
 
@@ -36,6 +39,7 @@ class Landlord extends Equatable {
       'phone_number': phoneNumber,
       'createdAt': createdAt.toIso8601String(),
       'updatedAt': updatedAt.toIso8601String(),
+      'userId': userId,
     };
   }
 
@@ -46,6 +50,7 @@ class Landlord extends Equatable {
     String? phoneNumber,
     DateTime? createdAt,
     DateTime? updatedAt,
+    String? userId,
   }) {
     return Landlord(
       landlordId: landlordId ?? this.landlordId,
@@ -54,6 +59,7 @@ class Landlord extends Equatable {
       phoneNumber: phoneNumber ?? this.phoneNumber,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
+      userId: userId ?? this.userId,
     );
   }
 
@@ -65,5 +71,6 @@ class Landlord extends Equatable {
         phoneNumber,
         createdAt,
         updatedAt,
+        userId,
       ];
 }

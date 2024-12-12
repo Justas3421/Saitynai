@@ -2,13 +2,28 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:landlords_web_app/backend/landlords_repository/landlord.dart';
 import 'package:landlords_web_app/constants/colors.dart';
+import 'package:landlords_web_app/constants/nav_bar.dart';
+import 'package:landlords_web_app/frontend/auth_screen/cubit/auth_cubit.dart';
 import 'package:landlords_web_app/frontend/building_screen/building_screen.dart';
 import 'package:landlords_web_app/frontend/landlords_screen/cubit/landlords_cubit.dart';
 import 'package:landlords_web_app/frontend/login_screen/widgets/landing_background.dart';
 import 'package:intl/intl.dart';
 
-class LandlordsScreen extends StatelessWidget {
-  const LandlordsScreen({super.key});
+class LandlordsScreen extends StatefulWidget {
+  final bool isManagment;
+  const LandlordsScreen({super.key, this.isManagment = false});
+
+  @override
+  State<LandlordsScreen> createState() => _LandlordsScreenState();
+}
+
+class _LandlordsScreenState extends State<LandlordsScreen> {
+  @override
+  void initState() {
+    super.initState();
+    context.read<LandlordsCubit>().fetchLandlords(
+        widget.isManagment, context.read<AuthCubit>().state.user);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +31,8 @@ class LandlordsScreen extends StatelessWidget {
       builder: (context, state) {
         final theme = Theme.of(context);
         if (state.status == LandlordsStatus.initial) {
-          context.read<LandlordsCubit>().fetchLandlords();
+          context.read<LandlordsCubit>().fetchLandlords(
+              widget.isManagment, context.read<AuthCubit>().state.user);
         }
         switch (state.status) {
           case LandlordsStatus.initial:
@@ -26,111 +42,110 @@ class LandlordsScreen extends StatelessWidget {
             return const Center(child: CircularProgressIndicator());
 
           case LandlordsStatus.success:
-            return Scaffold(
-              backgroundColor: Colors.black,
-              body: Stack(
-                children: [
-                  const LandingBackground(
-                    title: "Landlord list",
-                  ),
-                  SafeArea(
-                    child: Padding(
-                      padding: const EdgeInsets.only(top: 70),
-                      child: ListView.builder(
-                        physics: const BouncingScrollPhysics(),
-                        itemCount: state.landlords.length,
-                        padding: const EdgeInsets.all(16),
-                        itemBuilder: (context, index) {
-                          final landlord = state.landlords[index];
-                          return Card(
-                            color: LandingPageColors.cardColor.color,
-                            elevation: 8,
-                            margin: const EdgeInsets.symmetric(vertical: 8),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(
-                                  16.0), // Add padding for spacing
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  ListTile(
-                                    contentPadding: EdgeInsets.zero,
-                                    leading: const CircleAvatar(
-                                      backgroundImage: NetworkImage(
-                                        "https://images.pexels.com/photos/7641824/pexels-photo-7641824.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-                                      ),
-                                      radius: 36, // Larger size for the avatar
+            return Stack(
+              children: [
+                LandingBackground(
+                  title: !widget.isManagment
+                      ? "Landlord list"
+                      : "Landlord management",
+                ),
+                SafeArea(
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 70),
+                    child: ListView.builder(
+                      physics: const BouncingScrollPhysics(),
+                      itemCount: state.landlords.length,
+                      padding: const EdgeInsets.all(16),
+                      itemBuilder: (context, index) {
+                        final landlord = state.landlords[index];
+                        return Card(
+                          color: LandingPageColors.cardColor.color,
+                          elevation: 8,
+                          margin: const EdgeInsets.symmetric(vertical: 8),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(
+                                16.0), // Add padding for spacing
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                ListTile(
+                                  contentPadding: EdgeInsets.zero,
+                                  leading: const CircleAvatar(
+                                    backgroundImage: NetworkImage(
+                                      "https://images.pexels.com/photos/7641824/pexels-photo-7641824.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
                                     ),
-                                    title: Text(
-                                      landlord.name,
-                                      style: theme.textTheme.headlineSmall!
-                                          .copyWith(
-                                        color: ColorSeed.darkPrimaryText.color,
-                                        fontWeight: FontWeight
-                                            .bold, // Make the name more prominent
-                                      ),
-                                    ),
-                                    subtitle: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          landlord.phoneNumber,
-                                          style: theme.textTheme.bodyMedium!
-                                              .copyWith(
-                                            color:
-                                                ColorSeed.darkPrimaryText.color,
-                                          ),
-                                        ),
-                                        const SizedBox(
-                                            height:
-                                                4), // Add some spacing between lines
-                                        Text(
-                                          'Joined At: ${DateFormat.yMMMMd().format(landlord.createdAt)}',
-                                          style: theme.textTheme.bodyMedium!
-                                              .copyWith(
-                                            color: ColorSeed
-                                                .darkSecondaryText.color,
-                                            fontStyle: FontStyle.italic,
-                                          ),
-                                        ),
-                                      ],
+                                    radius: 36, // Larger size for the avatar
+                                  ),
+                                  title: Text(
+                                    landlord.name,
+                                    style:
+                                        theme.textTheme.headlineSmall!.copyWith(
+                                      color: ColorSeed.darkPrimaryText.color,
+                                      fontWeight: FontWeight
+                                          .bold, // Make the name more prominent
                                     ),
                                   ),
-                                  const SizedBox(
-                                      height:
-                                          12), // Spacing between details and button
-                                  Align(
-                                    alignment: Alignment.centerRight,
-                                    child: ElevatedButton(
-                                      onPressed: () {
-                                        Navigator.of(context)
-                                            .push(_createRoute(landlord));
-                                      },
-                                      style: ElevatedButton.styleFrom(
-                                        backgroundColor: Colors.amber,
-                                      ),
-                                      child: const Text(
-                                        'See Buildings',
-                                        style: TextStyle(
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.bold,
+                                  subtitle: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        landlord.phoneNumber,
+                                        style: theme.textTheme.bodyMedium!
+                                            .copyWith(
+                                          color:
+                                              ColorSeed.darkPrimaryText.color,
                                         ),
+                                      ),
+                                      const SizedBox(
+                                          height:
+                                              4), // Add some spacing between lines
+                                      Text(
+                                        'Joined At: ${DateFormat.yMMMMd().format(landlord.createdAt)}',
+                                        style: theme.textTheme.bodyMedium!
+                                            .copyWith(
+                                          color:
+                                              ColorSeed.darkSecondaryText.color,
+                                          fontStyle: FontStyle.italic,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                const SizedBox(
+                                    height:
+                                        12), // Spacing between details and button
+                                Align(
+                                  alignment: Alignment.centerRight,
+                                  child: ElevatedButton(
+                                    onPressed: () {
+                                      Navigator.of(context)
+                                          .push(_createRoute(landlord));
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: Colors.amber,
+                                    ),
+                                    child: const Text(
+                                      'See Buildings',
+                                      style: TextStyle(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.bold,
                                       ),
                                     ),
                                   ),
-                                ],
-                              ),
+                                ),
+                              ],
                             ),
-                          );
-                        },
-                      ),
+                          ),
+                        );
+                      },
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             );
 
           case LandlordsStatus.error:
@@ -147,8 +162,10 @@ class LandlordsScreen extends StatelessWidget {
 
   Route _createRoute(Landlord landlord) {
     return PageRouteBuilder(
-      pageBuilder: (context, animation, secondaryAnimation) =>
-          BuildingScreen(landlord: landlord),
+      pageBuilder: (context, animation, secondaryAnimation) => BuildingScreen(
+        landlord: landlord,
+        isManagment: widget.isManagment,
+      ),
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
         const begin = Offset(0.0, 1.0); // Change to come from the bottom
         const end = Offset.zero;

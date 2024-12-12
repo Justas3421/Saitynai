@@ -160,7 +160,9 @@ class ProfileScreenState extends State<ProfileScreen> {
                     ),
                     const SizedBox(height: 20),
                     ElevatedButton(
-                      onPressed: context.read<AuthCubit>().logout,
+                      onPressed: () {
+                        context.read<AuthCubit>().logout();
+                      },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.red,
                         shape: RoundedRectangleBorder(
@@ -192,14 +194,14 @@ class ProfileScreenState extends State<ProfileScreen> {
     bool obscureText = false,
     required double fontSize,
   }) {
+    var theme = Theme.of(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
           label,
-          style: TextStyle(
+          style: theme.textTheme.bodyLarge!.copyWith(
             color: Colors.grey,
-            fontSize: fontSize - 2,
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -220,10 +222,9 @@ class ProfileScreenState extends State<ProfileScreen> {
               )
             : Text(
                 obscureText ? '*' * controller.text.length : controller.text,
-                style: TextStyle(
-                  color: ColorSeed.darkPrimaryText.color,
+                style: theme.textTheme.headlineSmall!.copyWith(
+                  color: Colors.white,
                   fontWeight: FontWeight.bold,
-                  fontSize: fontSize,
                 ),
               ),
       ],

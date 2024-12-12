@@ -52,9 +52,7 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        textTheme: GoogleFonts.latoTextTheme(
-          Theme.of(context).textTheme,
-        ),
+        textTheme: GoogleFonts.latoTextTheme(),
         appBarTheme: const AppBarTheme(
           backgroundColor: Colors.black, // Default AppBar color
           iconTheme:

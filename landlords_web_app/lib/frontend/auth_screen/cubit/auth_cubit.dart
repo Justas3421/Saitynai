@@ -35,7 +35,7 @@ class AuthCubit extends Cubit<AuthState> {
     emit(state.copyWith(
       status: AuthStatus.inProgressLogin,
     ));
-    await _authRepository.logout(state.user.refreshToken);
-    emit(state.copyWith(status: AuthStatus.authenticated, user: User.empty));
+    emit(state.copyWith(status: AuthStatus.unauthenticated, user: User.empty));
+    await _authRepository.logout(state.user.accessToken);
   }
 }

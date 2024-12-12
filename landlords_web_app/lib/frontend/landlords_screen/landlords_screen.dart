@@ -94,8 +94,8 @@ class _LandlordsScreenState extends State<LandlordsScreen> {
                                     children: [
                                       Text(
                                         landlord.phoneNumber,
-                                        style: theme.textTheme.bodyMedium!
-                                            .copyWith(
+                                        style:
+                                            theme.textTheme.bodyLarge!.copyWith(
                                           color:
                                               ColorSeed.darkPrimaryText.color,
                                         ),
@@ -105,8 +105,8 @@ class _LandlordsScreenState extends State<LandlordsScreen> {
                                               4), // Add some spacing between lines
                                       Text(
                                         'Joined At: ${DateFormat.yMMMMd().format(landlord.createdAt)}',
-                                        style: theme.textTheme.bodyMedium!
-                                            .copyWith(
+                                        style:
+                                            theme.textTheme.bodyLarge!.copyWith(
                                           color:
                                               ColorSeed.darkSecondaryText.color,
                                           fontStyle: FontStyle.italic,

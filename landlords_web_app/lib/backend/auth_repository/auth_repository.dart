@@ -65,7 +65,7 @@ class AuthRepository {
   }
 
   Future<void> logout(String refreshToken) async {
-    final url = Uri.parse('$_apiUrl/register');
+    final url = Uri.parse('$_apiUrl/logout');
     final response = await http.post(
       url,
       headers: {'Content-Type': 'application/json'},
@@ -73,7 +73,7 @@ class AuthRepository {
         "refreshToken": refreshToken,
       }),
     );
-    if (response.statusCode == 201) {
+    if (response.statusCode == 200) {
       return;
     } else {
       // Handle error

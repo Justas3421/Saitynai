@@ -19,7 +19,7 @@ Paketų diagrama
 ![PackageDiagram](https://github.com/Justas3421/Saitynai/blob/main/package_diagram.png)
 
 # Sąsajų specifikacija #
-[text](Landlords/Rest_API/OpenAPI.yml)
+[OpenAPI Documentation](Landlords/Rest_API/OpenAPI.yml)
 
 # Darbo išvados #
 Projekto „Nuomojamų objektų valdymo sistema“ realizacija buvo sėkmingai įgyvendinta, užtikrinant užsibrėžtų tikslų pasiekimą. Sistema suteikia intuityvią ir efektyvią platformą, skirtą valdyti nuomojamus objektus.

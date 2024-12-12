@@ -1,0 +1,28 @@
+name: Deploy OpenAPI to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main  # Run on pushes to the main branch
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v3
+
+    - name: Install ReDoc CLI
+      run: npm install -g redoc-cli
+
+    - name: Generate Static OpenAPI HTML
+      run: |
+        mkdir -p public
+        redoc-cli bundle Landlords/Rest_API/OpenAPI.yml -o public/index.html
+
+    - name: Deploy to GitHub Pages
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./public

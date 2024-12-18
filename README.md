@@ -61,6 +61,15 @@ Diegimo diagrama
 Paketų diagrama
 ![PackageDiagram](https://github.com/Justas3421/Saitynai/blob/main/package_diagram.png)
 
+# Naudotojo sąsaja #
+
+![PackageDiagram](https://github.com/Justas3421/Saitynai/blob/main/image3.png)
+![PackageDiagram]([https://github.com/Justas3421/Saitynai/blob/main/package_diagram.png](https://github.com/Justas3421/Saitynai/blob/main/Screenshot%202024-12-18%20212815.png))
+![PackageDiagram]([https://github.com/Justas3421/Saitynai/blob/main/package_diagram.png](https://github.com/Justas3421/Saitynai/blob/main/image2.png))
+![PackageDiagram]([https://github.com/Justas3421/Saitynai/blob/main/package_diagram.png](https://github.com/Justas3421/Saitynai/blob/main/Screenshot%202024-12-18%20212857.png))
+![PackageDiagram]([https://github.com/Justas3421/Saitynai/blob/main/package_diagram.png](https://github.com/Justas3421/Saitynai/blob/main/image.png))
+![PackageDiagram]([https://github.com/Justas3421/Saitynai/blob/main/package_diagram.png](https://github.com/Justas3421/Saitynai/blob/main/Screenshot%202024-12-18%20212835.png))
+
 # Sąsajų specifikacija #
 [OpenAPI Documentation](Landlords/Rest_API/OpenAPI.yml)
 

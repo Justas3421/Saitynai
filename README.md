@@ -47,11 +47,11 @@ Sistema užtikrins saugią autentifikaciją ir autorizaciją, naudojant JWT, už
 5.3. Autorizacija turi būti vykdoma pagal vartotojo rolę, užtikrinant, kad kiekvienas vartotojas turi prieigą tik prie savo rolės funkcionalumo.  
 
 #### 6. **Naudotojų profiliai**  
-8.1. Nariai turi turėti galimybę peržiūrėti ir redaguoti savo profilio informaciją (pvz., vardą).  
+6.1. Nariai turi turėti galimybę peržiūrėti ir redaguoti savo profilio informaciją (pvz., vardą).  
 
-#### 10. **Sąsajos ir vartotojo patirtis**  
-10.1. Sistema turi būti pritaikyta tiek mobiliems telefonams, tiek planšetėms.  
-10.2. Sąsaja turi būti intuityvi ir naudotojams lengvai suprantama.  
+#### 7. **Sąsajos ir vartotojo patirtis**  
+7.1. Sistema turi būti pritaikyta tiek mobiliems telefonams, tiek planšetėms.  
+7.2. Sąsaja turi būti intuityvi ir naudotojams lengvai suprantama.  
 
 # Architektūros diagrama #
 

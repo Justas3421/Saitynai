@@ -64,11 +64,11 @@ Paketų diagrama
 # Naudotojo sąsaja #
 
 ![PackageDiagram](https://github.com/Justas3421/Saitynai/blob/main/image3.png)
-[https://github.com/Justas3421/Saitynai/blob/main/package_diagram.png](https://github.com/Justas3421/Saitynai/blob/main/Screenshot%202024-12-18%20212815.png)
-[https://github.com/Justas3421/Saitynai/blob/main/package_diagram.png](https://github.com/Justas3421/Saitynai/blob/main/image2.png)
-[https://github.com/Justas3421/Saitynai/blob/main/package_diagram.png](https://github.com/Justas3421/Saitynai/blob/main/Screenshot%202024-12-18%20212857.png)
-[https://github.com/Justas3421/Saitynai/blob/main/package_diagram.png](https://github.com/Justas3421/Saitynai/blob/main/image.png)
-[https://github.com/Justas3421/Saitynai/blob/main/package_diagram.png](https://github.com/Justas3421/Saitynai/blob/main/Screenshot%202024-12-18%20212835.png)
+![https://github.com/Justas3421/Saitynai/blob/main/package_diagram.png](https://github.com/Justas3421/Saitynai/blob/main/Screenshot%202024-12-18%20212815.png)
+![https://github.com/Justas3421/Saitynai/blob/main/package_diagram.png](https://github.com/Justas3421/Saitynai/blob/main/image2.png)
+![https://github.com/Justas3421/Saitynai/blob/main/package_diagram.png](https://github.com/Justas3421/Saitynai/blob/main/Screenshot%202024-12-18%20212857.png)
+![https://github.com/Justas3421/Saitynai/blob/main/package_diagram.png](https://github.com/Justas3421/Saitynai/blob/main/image.png)
+![https://github.com/Justas3421/Saitynai/blob/main/package_diagram.png](https://github.com/Justas3421/Saitynai/blob/main/Screenshot%202024-12-18%20212835.png)
 
 # Sąsajų specifikacija #
 [OpenAPI Documentation](Landlords/Rest_API/OpenAPI.yml)

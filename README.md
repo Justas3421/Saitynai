@@ -16,18 +16,20 @@ Sistema užtikrins saugią autentifikaciją ir autorizaciją, naudojant JWT, už
 
 #### 1. **Autentifikacija ir autorizacija**  
 1.1. Sistema turi užtikrinti saugią vartotojų autentifikaciją naudojant JWT (JSON Web Tokens).  
-1.2. Sistema turi palaikyti trijų tipų roles:  
+1.2. Kiekvienas vartotojas turi turėti prieigą tik prie savo rolės numatytų funkcijų.  
+1.3. Sistema turi palaikyti trijų tipų roles:  
 - **Svečias**: vartotojai be autentifikacijos.  
 - **Narys**: autentifikuoti vartotojai.  
 - **Administratorius**: vartotojai su pilna prieiga prie sistemos funkcijų.  
-1.3. Kiekvienas vartotojas turi turėti prieigą tik prie savo rolės numatytų funkcijų.  
+
 
 #### 2. **Nuomos objektų valdymas**  
 2.1. Nuomotojai turi turėti galimybę:  
 - Sukurti naujus nuomos objektus.  
 - Redaguoti esamus nuomos objektus.  
 - Trinti savo nuomos objektus.  
-- Matyti savo objektų sąrašą ir detalią informaciją apie juos.  
+- Matyti savo objektų sąrašą ir detalią informaciją apie juos.
+  
 2.2. Administratoriai turi turėti pilną prieigą prie visų nuomos objektų, galėdami juos:  
 - Peržiūrėti.  
 - Redaguoti.  
